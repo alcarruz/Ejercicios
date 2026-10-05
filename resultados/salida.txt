@@ -1,0 +1,70 @@
+=== Revisión del dataset ===
+Filas: 569  Columnas: 32
+Valores nulos totales: 0
+IDs duplicados: 0
+
+Distribución de la variable objetivo (diagnosis):
+diagnosis
+Benigno    357
+Maligno    212
+Name: count, dtype: int64
+diagnosis
+B    0.627
+M    0.373
+Name: proportion, dtype: float64
+
+Resumen de algunas variables:
+       radius_mean  texture_mean  area_mean  concave points_mean
+count       569.00        569.00     569.00               569.00
+mean         14.13         19.29     654.89                 0.05
+std           3.52          4.30     351.91                 0.04
+min           6.98          9.71     143.50                 0.00
+25%          11.70         16.17     420.30                 0.02
+50%          13.37         18.84     551.10                 0.03
+75%          15.78         21.80     782.70                 0.07
+max          28.11         39.28    2501.00                 0.20
+
+Entrenamiento: 426  Prueba: 143
+
+=== Random Forest base (500 árboles) ===
+OOB accuracy: 0.9554
+Test accuracy: 0.9650
+
+=== Mejor modelo (GridSearchCV, métrica ROC AUC) ===
+Mejores parámetros: {'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 500}
+ROC AUC CV: 0.9883
+Accuracy CV: 0.9647 ± 0.0167
+
+=== Evaluación en conjunto de prueba ===
+Accuracy: 0.9650
+ROC AUC:  0.9955
+
+Matriz de confusión (filas = real, columnas = predicho):
+              Pred Benigno  Pred Maligno
+Real Benigno            90             0
+Real Maligno             5            48
+
+Reporte de clasificación:
+              precision    recall  f1-score   support
+
+     Benigno     0.9474    1.0000    0.9730        90
+     Maligno     1.0000    0.9057    0.9505        53
+
+    accuracy                         0.9650       143
+   macro avg     0.9737    0.9528    0.9617       143
+weighted avg     0.9669    0.9650    0.9646       143
+
+=== Top 10 variables más importantes ===
+perimeter_worst         0.1384
+area_worst              0.1285
+concave points_worst    0.1018
+concave points_mean     0.0949
+radius_worst            0.0930
+radius_mean             0.0603
+perimeter_mean          0.0505
+area_mean               0.0497
+concavity_mean          0.0441
+area_se                 0.0354
+dtype: float64
+
+Gráficos guardados en ./resultados/
