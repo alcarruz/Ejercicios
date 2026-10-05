@@ -1,0 +1,61 @@
+=== PCA (ajustado solo con el train) ===
+Variables originales: 30  ->  componentes: 10
+Varianza retenida: 0.9519
+      varianza  acumulada
+PC1     0.4381     0.4381
+PC2     0.1918     0.6298
+PC3     0.0959     0.7257
+PC4     0.0666     0.7923
+PC5     0.0571     0.8493
+PC6     0.0397     0.8890
+PC7     0.0220     0.9110
+PC8     0.0159     0.9269
+PC9     0.0133     0.9402
+PC10    0.0118     0.9519
+Train PCA: (426, 10)  Test PCA: (143, 10)
+Guardados en ./resultados/train_pca.csv y ./resultados/test_pca.csv
+PC1 dominada por: concave points_mean, concavity_mean, concave points_worst, compactness_mean, perimeter_worst
+PC2 dominada por: fractal_dimension_mean, fractal_dimension_worst, fractal_dimension_se, radius_mean, area_mean
+
+=== RandomizedSearchCV (60 configuraciones, CV 5x2) ===
+Mejores hiperparámetros:
+  bootstrap: False
+  class_weight: balanced
+  criterion: entropy
+  max_depth: 12
+  max_features: 0.3
+  min_samples_leaf: 1
+  min_samples_split: 2
+  n_estimators: 574
+
+Comparación en validación cruzada (train PCA):
+                Anterior + PCA  Optimizado + PCA
+ROC AUC                 0.9879            0.9905
+Accuracy                0.9543            0.9496
+Recall maligno          0.9308            0.9246
+
+Top 5 configuraciones (ROC AUC CV):
+ n_estimators max_features max_depth  min_samples_leaf  bootstrap criterion       class_weight  mean_test_roc_auc  mean_test_recall
+          574          0.3        12                 1      False   entropy           balanced             0.9905            0.9246
+          552          0.5         8                 1       True   entropy                NaN             0.9897            0.9308
+          515          0.3        12                 2       True   entropy           balanced             0.9897            0.9466
+          541          0.3      None                 1      False      gini balanced_subsample             0.9896            0.9277
+          650          0.3         8                 1       True      gini balanced_subsample             0.9894            0.9308
+
+=== TEST ===
+                                    accuracy  roc_auc  recall_M   FN   FP
+Anterior - 30 variables originales     0.965   0.9955    0.9057  5.0  0.0
+Anterior - PCA (10 comp.)              0.958   0.9939    0.9245  4.0  2.0
+Optimizado - PCA (10 comp.)            0.965   0.9928    0.9245  4.0  1.0
+
+Reporte de clasificación - modelo optimizado con PCA:
+              precision    recall  f1-score   support
+
+     Benigno     0.9570    0.9889    0.9727        90
+     Maligno     0.9800    0.9245    0.9515        53
+
+    accuracy                         0.9650       143
+   macro avg     0.9685    0.9567    0.9621       143
+weighted avg     0.9655    0.9650    0.9648       143
+
+Gráfico guardado en ./resultados/pca_varianza.png
